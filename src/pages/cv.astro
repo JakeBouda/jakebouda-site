@@ -1,0 +1,224 @@
+---
+// cv.astro — Academic CV page
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="CV" description="Academic CV for Jacob Boudreau.">
+
+  <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+    <h1>Curriculum Vitae</h1>
+    <!-- Swap the href below for a link to your actual PDF on OSF or wherever you host it -->
+    <a href="/cv.pdf" class="tag" download>⬇ Download PDF</a>
+  </div>
+  <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.25rem;">Updated April 2026</p>
+
+  <hr />
+
+  <!-- CONTACT -->
+  <div class="cv-section">
+    <p>
+      Department of Psychology, Stony Brook University<br />
+      270 Smithtown Blvd, Nesconset, NY 11767<br />
+      <a href="mailto:jacob.boudreau@stonybrook.edu">jacob.boudreau@stonybrook.edu</a>
+    </p>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="cv-section">
+    <h2>Education</h2>
+
+    <h3>Graduate</h3>
+
+    <div class="cv-entry">
+      <span class="cv-year">2026 – present</span>
+      <div class="cv-detail">
+        <p><strong>Ph.D., Cognitive Science</strong></p>
+        <p>Graduate Certificate in Cognitive Neuroscience</p>
+        <p>Stony Brook University</p>
+        <p class="text-muted">Advisor: Dr. Sahil Luthra</p>
+      </div>
+    </div>
+
+    <div class="cv-entry">
+      <span class="cv-year">2025 – 2026</span>
+      <div class="cv-detail">
+        <p><strong>M.A., Linguistics</strong> (Data Analytics Emphasis)</p>
+        <p>University of Iowa</p>
+        <p class="text-muted">Mentor: Dr. Ethan Kutlu</p>
+      </div>
+    </div>
+
+    <h3>Undergraduate</h3>
+
+    <div class="cv-entry">
+      <span class="cv-year">2025</span>
+      <div class="cv-detail">
+        <p><strong>B.A., English & Creative Writing</strong></p>
+        <p><strong>B.A., Linguistics</strong></p>
+        <p>University of Iowa</p>
+        <p class="text-muted">Minor: Translation for Global Literacy</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AWARDS -->
+  <div class="cv-section">
+    <h2>Awards & Honors</h2>
+
+    <div class="cv-entry">
+      <span class="cv-year">2025</span>
+      <div class="cv-detail">
+        <p>Student Travel Grant, Acoustical Society of America</p>
+      </div>
+    </div>
+
+    <div class="cv-entry">
+      <span class="cv-year">2024</span>
+      <div class="cv-detail">
+        <p>Student Travel Grant for International Research, University of Iowa Office of Undergraduate Research</p>
+      </div>
+    </div>
+
+    <div class="cv-entry">
+      <span class="cv-year">2024</span>
+      <div class="cv-detail">
+        <p>Undergraduate Fiction Award, University of Iowa Department of English</p>
+        <p class="text-muted">Submitted by Professor Kaveh Akbar for <em>Really, a small thing.</em></p>
+      </div>
+    </div>
+
+    <div class="cv-entry">
+      <span class="cv-year">2024</span>
+      <div class="cv-detail">
+        <p>Student Travel Grant, Acoustical Society of America</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESEARCH EXPERIENCE -->
+  <div class="cv-section">
+    <h2>Research Experience</h2>
+
+    <div class="cv-entry">
+      <span class="cv-year">2025 – present</span>
+      <div class="cv-detail">
+        <p><strong>Lab Manager</strong></p>
+        <p>University of Iowa Voice Lab and S³ Lab</p>
+      </div>
+    </div>
+
+    <div class="cv-entry">
+      <span class="cv-year">2023 – present</span>
+      <div class="cv-detail">
+        <p><strong>Research Assistant</strong></p>
+        <p>University of Iowa Voice Lab and S³ Lab</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PUBLICATIONS & PRESENTATIONS -->
+  <div class="cv-section">
+    <h2>Scholarship</h2>
+
+    <h3>Papers in Preparation</h3>
+    <ul style="font-size: 0.9rem; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li>Kutlu E., Boudreau, J., Kim, D.J. (in prep). Social Network Surveys in Language Science Research.</li>
+      <li>Boudreau, J., Kutlu, E. (in prep). Sociogenerational Variability in Sentence Processing and Judgments.</li>
+      <li>Boudreau, J., Kim, D.J., Kim H., Kutlu, E. (in prep). Changing Cues? How Korean Learners Navigate VOT and F0 in Korean Stop Categorization.</li>
+    </ul>
+
+    <h3>Conference Presentations</h3>
+
+    <p style="font-size: 0.9rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;">2025</p>
+    <ul style="font-size: 0.9rem; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li>
+        Boudreau, J., Kutlu, E. (2025). Beyond 'Native Speaker': How Generation and Social Networks
+        Shape Sentence Processing. Poster presented at the <em>Psychonomic Society 66th Annual Meeting</em>,
+        Denver, CO.
+      </li>
+      <li>
+        Boudreau, J., Kim, D.J., Kim, H., Kim, S., Kutlu, E. (2025). Changing Cues? How Korean Learners
+        Navigate VOT and F0 in Korean Stop Categorization. Poster presented at the
+        <em>Acoustical Society of America</em>, New Orleans, LA.
+      </li>
+    </ul>
+
+    <p style="font-size: 0.9rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;">2024</p>
+    <ul style="font-size: 0.9rem; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li>
+        Kutlu, E., Boudreau, J., Chiu, S., Klein-Packard, J., & McMurray, B. (2024). Real-time word
+        recognition in heritage speakers: Evidence from the Visual World Paradigm. Poster presented at the
+        <em>Acoustical Society of America</em>, Ottawa, Canada.
+      </li>
+      <li>
+        Kutlu, E., Boudreau, J., Chiu, S., Klein-Packard, J., & McMurray, B. (2024). Real-Time Word
+        Recognition in Heritage Speakers: Evidence from the Visual World Paradigm. Poster presented at the
+        <em>Second Language Acquisition Graduate Symposium</em>, University of Iowa, Iowa City, IA.
+      </li>
+    </ul>
+  </div>
+
+  <!-- SERVICE -->
+  <div class="cv-section">
+    <h2>Service</h2>
+
+    <div class="cv-entry">
+      <span class="cv-year">2025 – present</span>
+      <div class="cv-detail">
+        <p>Graduate Student Representative, Linguistics</p>
+        <p class="text-muted">University of Iowa Department of Languages, Linguistics, Literatures and Cultures</p>
+      </div>
+    </div>
+
+    <div class="cv-entry">
+      <span class="cv-year">2023 – 2025</span>
+      <div class="cv-detail">
+        <p>Undergraduate Student Ambassador Lead, Department of English, University of Iowa</p>
+      </div>
+    </div>
+
+    <div class="cv-entry">
+      <span class="cv-year">2022 – 2024</span>
+      <div class="cv-detail">
+        <p>Translator and Editor, Translate Iowa Project</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="cv-section">
+    <h2>Technical Skills</h2>
+
+    <div class="cv-entry">
+      <span class="cv-year" style="font-size: 0.8rem;">Statistics</span>
+      <div class="cv-detail"><p>RStudio</p></div>
+    </div>
+    <div class="cv-entry">
+      <span class="cv-year" style="font-size: 0.8rem;">Experiments</span>
+      <div class="cv-detail"><p>Gorilla Experiment Builder, PsychoPy, E-Prime, Experiment Builder</p></div>
+    </div>
+    <div class="cv-entry">
+      <span class="cv-year" style="font-size: 0.8rem;">Phonetics</span>
+      <div class="cv-detail"><p>ELAN, Praat</p></div>
+    </div>
+    <div class="cv-entry">
+      <span class="cv-year" style="font-size: 0.8rem;">Programming</span>
+      <div class="cv-detail"><p>R (working proficiency), Python (limited)</p></div>
+    </div>
+
+    <h3 style="margin-top: 1.5rem;">Languages</h3>
+    <div class="cv-entry">
+      <span class="cv-year" style="font-size: 0.8rem;">English</span>
+      <div class="cv-detail"><p>Native</p></div>
+    </div>
+    <div class="cv-entry">
+      <span class="cv-year" style="font-size: 0.8rem;">Spanish</span>
+      <div class="cv-detail"><p>Limited proficiency</p></div>
+    </div>
+    <div class="cv-entry">
+      <span class="cv-year" style="font-size: 0.8rem;">German</span>
+      <div class="cv-detail"><p>Limited proficiency</p></div>
+    </div>
+  </div>
+
+</BaseLayout>

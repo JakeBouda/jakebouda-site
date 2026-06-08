@@ -1,0 +1,89 @@
+---
+// research.astro — Research projects page
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Each project is an object — easy to add more later.
+const projects = [
+  {
+    title: "Selective Adaptation vs. Distributional Learning",
+    status: "In planning",
+    tags: ["Speech Perception", "Adaptation", "EEG"],
+    description: `
+      Are selective adaptation and distributional learning functionally equivalent mechanisms
+      for recalibrating speech categories? Both paradigms produce systematic shifts in phoneme
+      boundaries, but it remains unclear whether they reflect the same underlying process.
+      This project will compare the two paradigms across multiple converging measures —
+      reaction time, ear specificity, talker and place-of-articulation generalization, and
+      neural loci (EEG) — to test whether they produce convergent results.
+    `,
+    refs: ["Kleinschmidt & Jaeger (2015)", "Dumay & Samuel (2026)"],
+  },
+  {
+    title: "Talker-Specific Phonetic Signatures in Lexical Access",
+    status: "In planning",
+    tags: ["Psycholinguistics", "Lexical Competition", "fMRI/EEG"],
+    description: `
+      How do listeners use beliefs about a talker's phonetic signature to constrain lexical
+      competition in real time? When a male talker raises the vowel in <em>tack</em> toward
+      [teɪg], listeners who have inferred his phonetic pattern may more quickly exclude
+      <em>tag</em> as a competitor. This project investigates the cognitive and neural
+      mechanisms behind this process, with a focus on whether right-lateralized voice
+      processing regions contribute to talker-conditioned lexical access — extending prior
+      work implicating LIFG and LSMG in lexical competition resolution.
+    `,
+    refs: ["Trude & Brown-Schmidt (2012)", "Luthra et al. (2019)", "Righi et al. (2010)"],
+  },
+];
+---
+
+<BaseLayout title="Research" description="Jacob Boudreau's research projects in speech perception and psycholinguistics.">
+
+  <h1>Research</h1>
+  <p>
+    My work sits at the intersection of speech perception, psycholinguistics, and cognitive
+    neuroscience. I'm broadly interested in how listeners cope with variability in the speech
+    signal — across talkers, communities, and learning contexts.
+  </p>
+  <p>
+    The projects below are in early planning stages with my advisor, Dr. Sahil Luthra.
+    I'll update this page as things develop.
+  </p>
+
+  <div class="card-grid">
+    {projects.map((project) => (
+      <div class="card">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+          <h3 style="margin-top: 0;">{project.title}</h3>
+          <span class="tag">{project.status}</span>
+        </div>
+
+        <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+          {project.tags.map((tag) => (
+            <span style="font-size: 0.75rem; color: var(--color-text-muted); background: var(--color-bg); border: 1px solid var(--color-border); padding: 0.15rem 0.5rem; border-radius: 999px;">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <p style="font-size: 0.9rem; color: var(--color-text); margin-bottom: 0.75rem;" set:html={project.description} />
+
+        {project.refs.length > 0 && (
+          <p style="font-size: 0.8rem; color: var(--color-text-muted); margin: 0;">
+            Key references: {project.refs.join('; ')}
+          </p>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <hr />
+
+  <h2>Previous work</h2>
+  <p>
+    During my M.A. at Iowa, I contributed to research on heritage speaker word recognition
+    (using the Visual World Paradigm), sociogenerational variability in sentence processing,
+    and cross-linguistic phonetic cue learning in Korean learners of English. See my
+    <a href="/cv">CV</a> for a full list of conference presentations and papers in preparation.
+  </p>
+
+</BaseLayout>

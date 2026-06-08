@@ -1,0 +1,65 @@
+---
+// BaseLayout.astro
+// Every page wraps its content in this layout.
+// Props: title (page title), description (for SEO)
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Jacob Boudreau — Cognitive Science PhD student at Stony Brook University." } = Astro.props;
+
+// Highlight the active nav link based on current URL
+const currentPath = Astro.url.pathname;
+const isActive = (path: string) => {
+  if (path === '/') return currentPath === '/';
+  return currentPath.startsWith(path);
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title} | Jacob Boudreau</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Global styles -->
+    <link rel="stylesheet" href="/src/styles/global.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Jacob Boudreau</a>
+        <ul class="nav-links">
+          <li><a href="/" class={isActive('/') ? 'active' : ''}>About</a></li>
+          <li><a href="/cv" class={isActive('/cv') ? 'active' : ''}>CV</a></li>
+          <li><a href="/research" class={isActive('/research') ? 'active' : ''}>Research</a></li>
+          <li><a href="/blog" class={isActive('/blog') ? 'active' : ''}>Blog</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Page content -->
+    <main>
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>
+        jacob.boudreau@stonybrook.edu &nbsp;·&nbsp;
+        <a href="https://github.com/jakebouda" target="_blank" rel="noopener">GitHub</a> &nbsp;·&nbsp;
+        <a href="https://osf.io" target="_blank" rel="noopener">OSF</a>
+      </p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  /* Import global styles — Astro processes this at build time */
+  @import '../styles/global.css';
+</style>

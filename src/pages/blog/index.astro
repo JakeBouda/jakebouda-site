@@ -1,0 +1,56 @@
+---
+// blog/index.astro — Blog index page
+// When you're ready to add posts, create files like:
+//   src/pages/blog/my-first-post.astro
+// and they'll automatically be available at /blog/my-first-post
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Add your posts here as you write them.
+// Each object will appear as a card on this page.
+const posts: { title: string; date: string; slug: string; description: string; tags: string[] }[] = [
+  // Example (uncomment and fill in when ready):
+  // {
+  //   title: "What even is selective adaptation?",
+  //   date: "2026-07-01",
+  //   slug: "selective-adaptation-explainer",
+  //   description: "A plain-language breakdown of one of speech perception's murkiest debates.",
+  //   tags: ["Speech Perception", "Explainer"],
+  // },
+];
+---
+
+<BaseLayout title="Blog" description="Writing and notes by Jacob Boudreau.">
+
+  <h1>Blog</h1>
+  <p>
+    This is where I write about research ideas, papers I'm reading, methods I'm learning,
+    and whatever else seems worth putting into words. I also plan to share short fiction here eventually.
+  </p>
+
+  {posts.length === 0 ? (
+    <div style="margin-top: 2rem; padding: 2rem; background: var(--color-surface); border: 1px dashed var(--color-border); border-radius: 8px; text-align: center;">
+      <p class="text-muted" style="margin: 0;">Posts coming soon — check back later.</p>
+    </div>
+  ) : (
+    <div class="card-grid" style="margin-top: 1.5rem;">
+      {posts.map((post) => (
+        <a href={`/blog/${post.slug}`} style="text-decoration: none; color: inherit;">
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+              <h3 style="margin: 0;">{post.title}</h3>
+              <span class="text-muted" style="font-size: 0.8rem; white-space: nowrap;">{post.date}</span>
+            </div>
+            <p>{post.description}</p>
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem;">
+              {post.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  )}
+
+</BaseLayout>

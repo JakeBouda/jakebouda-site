@@ -1,0 +1,47 @@
+---
+// manuscripts/korean-stop-categorization.astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const manuscript = {
+  title: "Changing Cues? How Korean Learners Navigate VOT and F0 in Korean Stop Categorization",
+  authors: "Boudreau, J., Kim, D.J., Kim, H., & Kutlu, E.",
+  status: "In preparation",
+  abstract: `
+    Korean stop consonants are distinguished by a complex interplay of voice onset time (VOT)
+    and fundamental frequency (F0), with different learner populations weighting these cues
+    differently. This paper examines how Korean learners of varying proficiency levels weight
+    VOT and F0 in stop categorization, and whether cue weighting shifts as a function of
+    language experience and social network composition.
+  `,
+  links: [],
+};
+
+const drafts: { version: string; date: string; path: string; notes: string }[] = [];
+
+const latestDraft = drafts[0] ?? null;
+const previousDrafts = drafts.slice(1);
+---
+
+<BaseLayout title={manuscript.title} description={manuscript.abstract.trim().slice(0, 160)}>
+
+  <p style="margin-bottom: 1.5rem;">
+    <a href="/manuscripts" style="font-size: 0.9rem; color: var(--color-text-muted);">← All manuscripts</a>
+  </p>
+
+  <h1 style="font-size: 1.5rem;">{manuscript.title}</h1>
+  <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
+    {manuscript.authors} &nbsp;·&nbsp;
+    <span style="font-weight: 500; color: #6b7280;">{manuscript.status}</span>
+  </p>
+
+  <hr />
+
+  <h2 style="margin-top: 1.5rem;">Abstract</h2>
+  <p style="font-size: 0.95rem;">{manuscript.abstract.trim()}</p>
+
+  <hr />
+
+  <h2>Drafts</h2>
+  <p class="text-muted" style="font-style: italic;">No drafts shared yet.</p>
+
+</BaseLayout>

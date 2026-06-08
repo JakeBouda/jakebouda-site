@@ -1,0 +1,48 @@
+---
+// manuscripts/sociogenerational-variability.astro
+// Duplicate of the template — fill in manuscript-specific content below.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const manuscript = {
+  title: "Sociogenerational Variability in Sentence Processing and Judgments",
+  authors: "Boudreau, J., & Kutlu, E.",
+  status: "In preparation",
+  abstract: `
+    Heritage speakers and second-language learners differ from monolinguals not only in
+    their linguistic grammars, but also in the social networks that shaped their language
+    exposure. This paper examines how generational status and social network structure
+    jointly predict real-time sentence processing patterns and grammaticality judgments,
+    using data from a large-scale online study.
+  `,
+  links: [],
+};
+
+const drafts: { version: string; date: string; path: string; notes: string }[] = [];
+
+const latestDraft = drafts[0] ?? null;
+const previousDrafts = drafts.slice(1);
+---
+
+<BaseLayout title={manuscript.title} description={manuscript.abstract.trim().slice(0, 160)}>
+
+  <p style="margin-bottom: 1.5rem;">
+    <a href="/manuscripts" style="font-size: 0.9rem; color: var(--color-text-muted);">← All manuscripts</a>
+  </p>
+
+  <h1 style="font-size: 1.5rem;">{manuscript.title}</h1>
+  <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
+    {manuscript.authors} &nbsp;·&nbsp;
+    <span style="font-weight: 500; color: #6b7280;">{manuscript.status}</span>
+  </p>
+
+  <hr />
+
+  <h2 style="margin-top: 1.5rem;">Abstract</h2>
+  <p style="font-size: 0.95rem;">{manuscript.abstract.trim()}</p>
+
+  <hr />
+
+  <h2>Drafts</h2>
+  <p class="text-muted" style="font-style: italic;">No drafts shared yet.</p>
+
+</BaseLayout>

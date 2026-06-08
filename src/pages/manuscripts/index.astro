@@ -1,1 +1,76 @@
+---
+// manuscripts/index.astro — Manuscript index
+// To add a manuscript:
+//   1. Add an entry to the `manuscripts` array below
+//   2. Create a matching page at src/pages/manuscripts/[slug].astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
+const manuscripts = [
+  {
+    slug: "social-network-surveys",
+    title: "Social Network Surveys in Language Science Research",
+    authors: "Kutlu, E., Boudreau, J., & Kim, D.J.",
+    status: "In preparation",
+    year: "in prep",
+    description: "A methodological paper examining the use of social network surveys as a tool for studying language variation and processing in naturalistic communities.",
+    tags: ["Sociolinguistics", "Methodology"],
+  },
+  {
+    slug: "sociogenerational-variability",
+    title: "Sociogenerational Variability in Sentence Processing and Judgments",
+    authors: "Boudreau, J., & Kutlu, E.",
+    status: "In preparation",
+    year: "in prep",
+    description: "Examines how generational status and social network structure shape real-time sentence processing and acceptability judgments.",
+    tags: ["Psycholinguistics", "Heritage Speakers"],
+  },
+  {
+    slug: "korean-stop-categorization",
+    title: "Changing Cues? How Korean Learners Navigate VOT and F0 in Korean Stop Categorization",
+    authors: "Boudreau, J., Kim, D.J., Kim, H., & Kutlu, E.",
+    status: "In preparation",
+    year: "in prep",
+    description: "Investigates how Korean learners weight voice onset time (VOT) and fundamental frequency (F0) cues when categorizing Korean stop consonants.",
+    tags: ["Phonetics", "Second Language Acquisition"],
+  },
+];
+
+const statusColor: Record<string, string> = {
+  "In preparation": "#6b7280",
+  "Under review": "#b45309",
+  "Published": "#15803d",
+};
+---
+
+<BaseLayout title="Manuscripts" description="Academic manuscripts by Jacob Boudreau.">
+
+  <h1>Manuscripts</h1>
+  <p>
+    Papers in preparation, under review, and published. Click a title to see the abstract,
+    drafts, and related materials. Drafts are shared for transparency — please don't cite
+    without asking first.
+  </p>
+
+  <div class="card-grid" style="margin-top: 1.5rem;">
+    {manuscripts.map((ms) => (
+      <a href={`/manuscripts/${ms.slug}`} style="text-decoration: none; color: inherit;">
+        <div class="card">
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+            <h3 style="margin: 0; font-size: 0.975rem;">{ms.title}</h3>
+            <span style={`font-size: 0.75rem; font-weight: 500; color: ${statusColor[ms.status] ?? '#6b7280'}; white-space: nowrap;`}>
+              {ms.status}
+            </span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">{ms.authors} ({ms.year})</p>
+          <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">{ms.description}</p>
+          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+            {ms.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
+
+</BaseLayout>

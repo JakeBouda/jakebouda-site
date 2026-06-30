@@ -1,4 +1,5 @@
 ---
+layout: ../../layouts/BaseLayout.astro
 title: "On tech agnosticism"
 description: "Some reflections on a growing hobby of mine."
 pubDate: "Jun 30 2026"

@@ -1,5 +1,11 @@
 import { defineConfig } from 'astro/config';
 
+import cloudflare from "@astrojs/cloudflare";
+
 export default defineConfig({
-  site: 'https://jakebouda.com', // replace with your actual domain
+  // replace with your actual domain
+  site: 'https://jakebouda.com',
+
+  output: "hybrid",
+  adapter: cloudflare()
 });

@@ -7,14 +7,18 @@ const projects = [
   {
     title: "Selective Adaptation and Distributional Learning",
     status: "In planning",
-    tags: ["Speech Perception", "Distributional Learning", "Adaptation", "EEG"],
+    tags: ["Speech Perception", "Distributional Learning", "Selective Adaptation", "EEG"],
     description: `
-      Are selective adaptation and distributional learning functionally equivalent mechanisms
-      for recalibrating speech categories? Both paradigms produce systematic shifts in phoneme
-      boundaries, but it remains unclear whether they reflect the same underlying process.
-      This project will to test whether they produce convergent results across paradigms for:
-      reaction time, ear specificity, talker and place-of-articulation generalization, and
-      neural loci (EEG).
+    There’s a curious phenomenon that’s well-replicated in psychophysics: 
+    when we hear the same stimulus over and over again (say, 76 instances 
+    of passive exposure to a single audio file), we tend to show different response 
+    patterns after such an adaptation phase. These changes most often arise through “poorer” response characteristics, 
+    like increased response times. The thing is that there has never been a head-to-head comparison 
+    for whether this is a result of selective adaptation or distributional learning, and interest in it has waned in recent decades. 
+    If it’s the former, then what is happening is that feature detectors in the brain are getting fatigued. If the latter, then 
+    what is likely happening is that the statistical distributions of acoustic characteristics in the speech 
+    signal are being retuned as a result of an adaptor phase. Through a series of experiments, we seek to test 
+    this question directly. 
     `,
     refs: ["Kleinschmidt & Jaeger (2015)", "Dumay & Samuel (2026)"],
   },
@@ -24,9 +28,9 @@ const projects = [
     tags: ["Psycholinguistics", "Lexical Competition", "fMRI/EEG"],
     description: `
       How do listeners use beliefs about a talker's phonetic signature to constrain lexical
-      competition in real time? When a male talker raises the vowel in <em>tack</em> toward
-      [teɪg] when preceding a voiced consonant, listeners who have inferred his phonetic 
-      pattern may exclude <em>tag</em> as a competitor more quickly. This project investigates 
+      competition in real time? When a talker raises the vowel in <em>tack</em> toward
+      [eɪ] when preceding a voiced consonant, listeners who have inferred their phonetic 
+      pattern may exclude <em>tack</em> as a competitor more quickly. This project investigates 
       the cognitive and neural mechanisms behind this process, with a focus on whether 
       right-lateralized voice processing regions contribute to talker-conditioned lexical access.
     `,

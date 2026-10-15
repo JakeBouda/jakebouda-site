@@ -1,0 +1,301 @@
+---
+title: "Sociogenerational-Paper"
+author: "Jacob Boudreau and Ethan Kutlu"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r}
+# Load necessary libraries
+library(rio)
+library(dplyr)
+library(ggplot2)
+library(viridis)
+library(stringr)
+library(readr)
+library(lme4)
+library(lmerTest)
+library(emmeans)
+library(report)
+#library(ggsave)
+library(systemfonts)
+library(svglite)
+
+options(scipen = 999)
+```
+
+```{r}
+# set directories
+main_dir   <- getwd()
+cw_dir     <- file.path(main_dir, "SPR/Cleaning-Wrangling")
+processed_data_dir  <- file.path(main_dir, "SPR/Analysis/Data2")
+demo_dir   <- file.path(main_dir, "Demo")
+output_dir <- file.path(main_dir, "output")
+```
+
+```{r}
+# =============================================================================
+# PIPELINE: Source cleaning & wrangling scripts
+# =============================================================================
+# Run these in order to rebuild Data1 and Data2 from raw exports.
+# Safe to re-run at any time — each script overwrites its output file.
+# 2ID-Renamer.R is excluded: it was for mixed Sona+Prolific pipelines and is
+# now fully replaced by Prolific-Renamer.R.
+# =============================================================================
+
+source(file.path(main_dir,  "Demo/Demo-Merger.R"))                         # → Demo/Merged-Demo.csv
+source(file.path(cw_dir,    "1SonaPro-SPR-Merger.R"))                      # → Data1/Prolific_SPR.csv
+source(file.path(cw_dir,    "Prolific-Renamer.R"))                         # → Data1/Prolific_SPR.csv (IDs fixed)
+source(file.path(cw_dir,    "3Wrangling.R"))                               # → Data2/Processed_SPR_1.csv
+```
+
+
+```{r}
+# read in the data
+demodata <- read_csv(file.path(demo_dir, "Merged-Demo.csv"))
+demodata <- demodata %>%
+  filter(Language == "English", `Primary language` == "English")
+SPRdata <- read_csv(file.path(processed_data_dir, "Processed_SPR_1.csv"))
+```
+
+```{r}
+# rename the demo file's submission id to match SPR
+demodata <- demodata %>%
+  rename(
+    participantID = `Submission id`)
+
+# n_distinct(unique(demodata$participantID))
+```
+
+```{r}
+# merge the demo and SPR data by participant id
+merged_data <- SPRdata %>%
+  inner_join(demodata,
+             by = "participantID")
+# replace participantID with a new, arbitrary number
+merged_data <- merged_data %>%
+  group_by(participantID) %>%
+  mutate(participantID = cur_group_id()) %>%
+  ungroup()
+# sanity check
+# n_distinct(merged_data$participantID)
+```
+
+# Introduction
+
+The concept of a native speaker is ubiquitous in the language sciences. Chomsky (1965) used the term to describe an idealized speaker of a language who was exposed to a single language from birth, has complete knowledge of the grammar, and can produce and understand any grammatical utterance effortlessly. This has led to a theoretical emphasis on nativeness as an assumed default condition for a language user to inhabit (Namboodiripad, Kutlu, et al., 2026). Subsequently, this has also led to it being used as a benchmark for evaluating language acquisition, proficiency and use. Despite its frequent use, the meaning of native speaker is often not clearly defined, and, when a definition is offered, native speakerhood is identified as coming from a plethora of different sources or circumstances (see Cheng et al., 2021 for a review). The goal of this paper is to examine the utility of the native speaker construct in capturing language processing in healthy adult monolingual speakers of American English.
+
+The term native speaker can describe a proficiency level, an acquisition profile, a social identity, or multiple of these in a number of given definitions common in the literature (Cheng et al., 2021). While individual studies can employ a given definition such that it is useful or coherent for a single study, when taken together, the definitions of native speakerhood are often inconsistent and contradictory. For example, some definitions of native speakerhood require that a speaker be exposed to a single language from birth, while others allow for exposure to multiple languages in early childhood. Some definitions require that a speaker be able to produce and understand any grammatical utterance effortlessly, while others allow for some difficulty in production and comprehension with particularly complex structures. Among several researchers, there is still a debate of who can be called a native speaker (Benmamoun, 2013; Rothman and Treffers-Daller, 2014; Boltokova, 2017 as cited in Cheng et al., 2021).
+
+As several researchers have noted, nebulous concepts such as native speaker make the process of conducting meaningful psycholinguistic research more difficult (see Namboodiripad, Kutlu, et al., 2026 for a review). Beyond the definitional questions of what qualifies someone as native speaker and whom the terms include, the construct raises methodological concerns. The native speaker status is a ubiquitous inclusion or exclusion criterion in psycholinguistics studies, and it often becomes a variable at the analysis stage as well such as in studies comparing monolingual native speakers with bilinguals. Similarly, age is also a common inclusion and exclusion criterion with the majority of psycholinguistic studies recruiting participants under the age of 35. This is often motivated by well-documented age effects on linguistic and cognitive processes across domains (e.g., Federmeier, Kutas, & Schul, 2010; Colby & McMurray, 2023). In addition to these cognitive processes, however, sociolinguistic changes to a language also systematically vary across age groups (Labov, Rosenfelder, & Fruehwald 2013; Tagliamonte 2005, 2009; Tagliamonte & D’arcy 2007), and these effects have been shown to emerge in electrophysiological responses (Sandstedt et al., 2026).
+
+A growing body of research shows that, on multiple levels (behavioral, neurological, social), there are multiple vectors by which variability in one’s environment can alter online language processing (Pakulak and Neville, 2010; Bice and Kroll, 2019; Oh, et al., 2020; Sandstedt et al., 2026). In Bice and Kroll’s (2019) study with monolingual English speakers, for example, the authors were able to show that the ambient linguistic diversity in participants’ environments (i.e., the diversity of languages spoken in the two testing locations) affected their sensitivity to the phonological rules of a language that was not spoken in either context. Additionally, Oh and colleagues (2020) found that non-Māori speakers in New Zealand are able to build a proto-lexicon through intense exposure alone, which the authors defined as residents of New Zealand who did not speak Māori. Finally, Sandstedt and colleagues (2026) showed that exposure to participle usage (specifically, number and gender agreement patterns) among speakers of different Norwegian dialects elicited neural responses that correlated not only with participants’ preferred dialect, but also with their age- and production-based tendencies, resulting in robust individual differences within groups. That is, the extent to which individuals used and encountered these new grammatical forms remained a relevant variable regardless of their dialect-groups. This evidence shows that one's native language, alone, does not sufficiently capture the full extent of their linguistic knowledge and this emerges across multiple levels of analysis.
+
+The present study asks whether age and sociolinguistic change are relevant variables for predicting judgments of a new grammatical form. The specific grammatical form of interest is the phrase "by accident" and "on accident". In recent decades (since the mid 1990's), speakers of American English have started to prefer the use of "on accident" at higher rates than previous generations. If the native speaker construct is of more use than age in light of the sociolinguistic change in predicting judgments of this new grammatical form, then one would expect that age would not be significant predictors of judgments of "on accident" and "by accident" if all participants are monolingual speakers of American English. However, if age is a significant predictor of judgments, then the native speaker construct is not sufficient to capture the full extent of linguistic knowledge and experience.
+
+# Method
+
+## Participants
+
+```{r}
+participant_ages <- merged_data %>%
+  select(participantID, Age) %>%
+  distinct(participantID, .keep_all = TRUE) %>% # drop the repeat rows and keep unique participant ids
+  rename(age = Age)
+
+generation_table <- participant_ages %>%
+  mutate(Generation = ifelse(as.numeric(age) <= 29, "Gen Z",
+                             ifelse(as.numeric(age) > 29 & as.numeric(age) <= 45, "Millennial",
+                                    ifelse(as.numeric(age) > 45 & as.numeric(age) <= 60, "Gen X",
+                                           ifelse(as.numeric(age) > 60 & as.numeric(age) < 76, "Baby Boomer", "Silent")))))
+
+age_summary <- generation_table %>%
+  group_by(Generation) %>%
+  summarise(
+    n = n(),
+    mean_age = mean(age, na.rm = TRUE),
+    sd_age = sd(age, na.rm = TRUE),
+    min_age = min(age, na.rm = TRUE),
+    max_age = max(age, na.rm = TRUE),
+    percent_of_total = n / nrow(generation_table) * 100
+  )
+sex_count <- merged_data %>%
+  select(participantID, Sex) %>%
+  distinct(participantID, .keep_all = TRUE) %>% # drop the repeat rows and keep unique participant ids
+  group_by(Sex) %>%
+  summarise(n = n()) %>%
+  mutate(percent_of_total = n / sum(n) * 100)
+age_summary
+generation_table
+```
+
+A total of 104 participants were recruited online via Prolific (<https://app.prolific.com>) and were compensated \$10 for their participation. Using Prolific's prescreening features, we restricted participation to participants who indicated the United States as their country of residence and English as their primary language. To obtain a representative sample from across the lifespan, participants were recruited in batches of roughly 25 people each targeting specific generational cohorts (i.e., Gen-Z, Millennials, Gen-X, and Boomers) using Prolific's age prescreener. These generational labels were used primarily to ensure we obtained a sample representative of the adult lifespan; age was treated as a continuous variable in all present analyses. The study was approved by the University of Iowa Institutional Review Board (IRB#####) and all participants were required to indiciate their consent before participating.
+
+Seven participants were dropped from the final analysis for including additional languages in their list of known and primary languages. One additional participant was dropped for incomplete data in the main task. Our final sample included 96 participants across 49 unique ages ranging from 20 years old to 81 years old (Mean age = 46.02, SD age = 17.43; 64 females 66.7%).
+
+## Materials
+
+A total of 122 sentences across 9 sentence types were presented to participants. Each sentence type varied around its own manipulation criteria with the expected number of sentences judged natural and unnatural to be equal. The sentence type of interest varied on the basis of the preposition in the phrase *by/on accident* with 11 unique sentences in each condition (total n = 22). The remaining sentence types covered a range of expected naturalness ratings and served as fillers. Each participant saw the same 122 sentences in a randomized order using teh experiment platform's built-in randomization feature.
+
+## Procedure
+
+Participants completed a self-paced reading (SPR) and acceptability judgment task (AJT) on Gorilla (<https://gorilla.sc>). After giving their consent, participants were asked to read each sentence at their own pace and, on the following page, indicate how natural the sentence was to them. The sentences were presented one word at a time when the participant pressed the spacebar in a non-cumulative moving-window display. Immediately after each sentence was fully presented, participants were asked to indicate their naturalness judgment on a continuous sliding scale with a "Natural" label on the right edge and an "Unnatural" label on the left. They first completed a practice block of three sentences before proceeding to the main task. The slider was set to a 0-100 scale with 0.1 step intervals and the slider handle did not appear until the participants first clicked on the slider. After going through a randomized list of all 122 sentences, participants proceeded to an auditory Visual Analog Scaling (VAS) Task and completed a social network and language attitudes survey.
+
+```{r}
+n_stimuli <- merged_data %>%
+  group_by(SentenceType) %>%
+  summarise(n = n_distinct(sentences))
+
+average_rating <- mean(merged_data$Judgment, na.rm = TRUE)
+sd_rating <- sd(merged_data$Judgment, na.rm = TRUE)
+```
+
+```{r}
+stimuli_df <- merged_data %>%
+  group_by(SentenceType, SentenceCondition) %>%
+  summarise(
+    n = n_distinct(sentences), 
+    mean_judgment = mean(Judgment),
+    sd_judgment = sd(Judgment)
+  )
+```
+
+## Data Analysis
+
+Across all 96 included participants, 12,000 total trials were collected. The three practice trials were coded under different sentence conditions and, thus, 288 such trials were dropped across all participants. Reaction times were collected and analyzed to drop trials where it was clear that participants either took a break or otherwise stepped away from the task. It was determined that any sentence which took the participant longer than 20 seconds to read was a reasonable cutoff point for dropping trials. Additionally, any trial where the participant took longer than 10 seconds to make their judgment was also dropped. In total, this resulted in 482 trials being excluded from final analysis. The final dataset included 11,230 trials with observations for individual sentences ranging from 86 to 96 (Mean = 92.04, SD = 1.84). After exclusions, the mean judgment across all stimuli was 51.12 (SD = 38.30) with the average reaction times being 2383.96 ms (SD = 1643.53; Mean Judgment = 2899.34, SD Judgment = 1613.25). The critical *by/on accident* trials included 1,013 total trials from the *by accident* condition (Mean Judgment = 90.78, SD = 14.49) and 1,002 trials from the *on accident* condition (Mean Judgment = 62.44, SD = 37.29).
+
+```{r}
+#Filtering out trials where participants took more than 10 seconds to judge and 30 seconds to read
+head(sort(merged_data$Avg_Absolute_RT, decreasing = TRUE))
+
+#Let's see in detail ---- 1:25 for top 25 to see the extremes
+sprtime <- merged_data[order(-merged_data$Avg_Absolute_RT), ][1:25, ] # all over 60s
+jtime <- merged_data[order(-merged_data$RT_Judgment), ][1:25, ] # all over 80s
+
+# Trial count
+ntotal <- merged_data %>%
+  filter(is.na(SentenceCondition) == FALSE) %>% # Practice trials were coded as NA in Sentence Condition
+  summarise(n = n()) # 11,712 trials --- 288 trials (that's 96 * 3)
+
+# filter out sentences where they took longer than 30 s to read and 10 s to judge. 
+n_analysis <- merged_data %>%
+  filter(Avg_Absolute_RT < 20000, RT_Judgment < 10000, is.na(SentenceCondition) == FALSE) %>%
+  summarise(n = n()) # 11,230 trials left for analysis; that's 482 trials dropped
+
+# descriptive stats summaries
+spr_summary <- merged_data %>%
+  filter(Avg_Absolute_RT < 20000, RT_Judgment < 10000, is.na(SentenceCondition) == FALSE) %>%
+  summarise(
+    meanjudgment = mean(Judgment),
+    sdjudgment = sd(Judgment),
+    meanjudgrt = mean(RT_Judgment),
+    sdjudgrt = sd(RT_Judgment),
+    mean_rt = mean(Avg_Absolute_RT),
+    sd_rt = sd(Avg_Absolute_RT),
+    n_total = n()
+  )
+
+condition_summary <- merged_data %>% # global summary by conditions
+  filter(Avg_Absolute_RT < 20000, RT_Judgment < 10000, is.na(SentenceCondition) == FALSE) %>%
+  group_by(SentenceCondition) %>%
+  summarise(
+    meanjudgment = mean(Judgment),
+    sdjudgment = sd(Judgment),
+    meanjudgrt = mean(RT_Judgment),
+    sdjudgrt = sd(RT_Judgment),
+    mean_rt = mean(Avg_Absolute_RT),
+    sd_rt = sd(Avg_Absolute_RT),
+    n_total = n()
+  )
+sentence_summary <- merged_data %>% # summary by stimulus
+  filter(Avg_Absolute_RT < 20000, RT_Judgment < 10000, is.na(SentenceCondition) == FALSE) %>%
+  group_by(sentences) %>%
+  summarise(
+    meanjudgment = mean(Judgment),
+    sdjudgment = sd(Judgment),
+    meanjudgrt = mean(RT_Judgment),
+    sdjudgrt = sd(RT_Judgment),
+    mean_rt = mean(Avg_Absolute_RT),
+    sd_rt = sd(Avg_Absolute_RT),
+    n_total = n()
+    )
+mean_obs_across_sentences <- sentence_summary %>% # summary of the number of observations across all stimuli
+  summarise(
+    mean_obs = mean(n_total),
+    sd_obs = sd(n_total)
+    )
+```
+
+We fitted a linear mixed effects model (estimated using REML and nloptwrap optimizer) to predict Judgment with Sentence Condition and a mean-centered Age variable (formula: Judgment \~ SentenceCondition \* Age_c). The model included Participant ID as a random effect (formula: \~1 \| participantID). The model's total explanatory power is substantial (conditional R2 = 0.59) and the part related to the fixed effects alone (marginal R2) was of 0.29. The model's intercept, corresponding to Sentence Condition = *by accident* and Age_c = 0, was at 90.60 (95% CI [86.93, 94.28], t(2009) = 48.37, p \< .001). This model predicts that a 46.02 year old participant would judge the *by accident* condition at 90.60 out of 100 on the sliding scale. Within this model, the effect of Sentence Condition [*on accident*] was statistically significant and negative (beta = -28.19, 95% CI [-29.97, -26.41], t(2009) = -31.10, p \< .001; Std. beta = -0.89, 95% CI [-0.95, -0.84]), predicting that the same 46.02 year old participant would judge the *on accident* condition 28.19 points lower than the *by accident* condition. The effect of Age was statistically non-significant and positive (beta = 0.06, 95% CI [-0.15, 0.28], t(2009) = 0.59, p = 0.552; Std. beta = 0.04, 95% CI [-0.08, 0.15]), and the interaction of Sentence Condition [*on accident*] × Age was statistically significant and negative (beta = -0.85, 95% CI [-0.95, -0.75], t(2009) = -16.27, p \< .001; Std. beta = -0.47, 95% CI [-0.52, -0.41]). Within this model, for every unit increased in age, the judgments of the *on accident* condition changed by -0.85 points, predicting that older participants would judge the *on accident* condition harsher than younger participants. This model further indicated that the youngest participant (Age_c = -26.13) in our sample judged the *on accident* condition only 6.14 points lower than the *by accident* condition while the oldest participant (Age_c = 34.89) judged it 57.02 points lower.
+
+```{r}
+# --- Subset & Prepare --------------------------------------------------------
+
+by_on_df <- merged_data %>%
+  filter(
+    Avg_Absolute_RT < 20000, 
+    RT_Judgment < 10000, 
+    is.na(SentenceCondition) == FALSE, 
+    SentenceType == "on_by_accident"
+    ) %>%
+  mutate(
+    Age_c = Age - mean(Age, na.rm = TRUE),
+    SentenceCondition = str_trim(SentenceCondition),
+    SentenceCondition = str_replace_all(SentenceCondition, "_", " "),
+    SentenceCondition = case_when(
+      str_to_lower(SentenceCondition) == "by accident" ~ "by accident",
+      str_to_lower(SentenceCondition) == "on accident" ~ "on accident",
+      TRUE ~ SentenceCondition
+    ),
+    SentenceCondition = factor(SentenceCondition, levels = c("by accident", "on accident"))
+  )
+
+# --- Model -------------------------------------------------------------------
+
+model_on_by <- lmer(Judgment ~ SentenceCondition * Age_c + (1 | participantID),
+                    data = by_on_df)
+summary(model_on_by)
+report(model_on_by)
+
+# post-hoc analyses
+emtrends(model_on_by, ~ SentenceCondition, var = "Age_c")
+test(emtrends(model_on_by, ~ SentenceCondition, var = "Age_c"))
+pairs(emtrends(model_on_by, ~ SentenceCondition, var = "Age_c"))
+
+emm <- emmeans(model_on_by, ~ SentenceCondition | Age_c, at = list(Age_c = c(-20, 0, 20))) # only doing 20 for either side for now; actual low and high are -26.13 and 34.89 respectively and that's where the figures reported above are from.
+pairs(emm)
+```
+
+```{r}
+# Plot the regression lines with raw responses
+ggplot(by_on_df, aes(x = Age_c, y = Judgment, color = SentenceCondition)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", se = TRUE, fullrange = TRUE) +
+  scale_color_viridis(discrete = TRUE, option = "D") +
+  theme_minimal(base_size = 16) +
+  theme(
+    axis.text    = element_text(size = 14),
+    axis.title   = element_text(size = 16),
+    plot.title   = element_text(size = 18, face = "bold"),
+    legend.title = element_text(size = 14),
+    legend.text  = element_text(size = 13)
+  ) +
+  labs(
+    x     = "Centered Age (Age_c)",
+    y     = "Acceptability Judgment Rating",
+    color = "Sentence Condition"
+  ) 
+ggsave("output/SPR-Age-By-On-Accident.tiff", width = 8, height = 6, dpi = 300)
+knitr::include_graphics("output/SPR-Age-By-On-Accident.tiff")
+```
+
+# Discussion
+
+The concept of a native speaker is ubiquitous in the langauge sciences. One of the most critical assumptions made by positing such a concept is that their language, as a result of the circumstances of their linguistic background, is less susceptible to random perturbations in their environment. That is, the reason one might assume native speakers are important control groups is that their language more stable than that of a non-native speaker. 

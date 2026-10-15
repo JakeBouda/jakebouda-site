@@ -37,19 +37,15 @@ const previousDrafts = drafts.slice(1);
 
   <hr />
 
+
   <h2 style="margin-top: 1.5rem;">Abstract</h2>
   <p style="font-size: 0.95rem;">{manuscript.abstract.trim()}</p>
 
-  <hr />
-
-    <h2 style="margin-top: 1.5rem;">Abstract</h2>
-    <p style="font-size: 0.95rem;">{manuscript.abstract.trim()}</p>
-
     {manuscript.links.length > 0 && (
-      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:0.5rem;">
-        {manuscript.links.map((l) => <a href={l.url} target="_blank" rel="noopener" class="tag">{l.label} ↗</a>)}
-      </div>
-    )}
+     <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:0.5rem;">
+       {manuscript.links.map((l) => <a href={l.url} target="_blank" rel="noopener" class="tag">{l.label} ↗</a>)}
+    </div>
+   )}
 
   <hr />
 

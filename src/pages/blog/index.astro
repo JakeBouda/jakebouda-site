@@ -10,13 +10,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 // Each object will appear as a card on this page.
 const posts: { title: string; date: string; slug: string; description: string; tags: string[] }[] = [
   // Example (uncomment and fill in when ready):
-//   {
-//     title: "On tech agnosticism",
-//     date: "2026-06-30",
-//     slug: "on-tech-agnosticism",
-//     description: "Some reflections on a growing hobby of mine.",
-//     tags: ["Personal", "Explainer", "Tech"],
-//   },
+   {
+     title: "Really, a small thing.",
+     date: "2024-04-30",
+     slug: "really-a-small-thing",
+     description: "A project I wrote for The Lyric Novel as taught by Kaveh Akbar",
+     tags: ["Creative", "Prose"],
+   },
 ];
 ---
 
@@ -24,8 +24,7 @@ const posts: { title: string; date: string; slug: string; description: string; t
 
   <h1>Blog</h1>
   <p>
-    This is where I write about research ideas, papers I'm reading, methods I'm learning, detailed paraphrases,
-    and whatever else seems worth putting into words. I will also share drafts of creative or non-academic pieces here.
+    This is where I will write about other things--basically whatever else seems worth putting into words. I will also share drafts of creative or non-academic pieces here.
   </p>
 
   {posts.length === 0 ? (

@@ -1,0 +1,67 @@
+---
+// teaching.astro — Teaching materials
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Each project is an object — easy to add more later.
+const projects = [
+  {
+    title: "Recap slides from PSY:260 Introduction to Cognition and Perception",
+    status: "TA",
+    tags: ["Survey Course", "Lecture", "TA"],
+    description: `
+    I served as a graduate teaching assistant for PSY:260 Introduction to Cognition and Perception in the fall of 2026.
+    I was responsible for leading regular recap lectures based on topics students found most confusing during the previous main lecture(s)
+    as well as full exam recaps that lasted the entire class. In addition to this, I assisted in creating and administering exams
+    and organizing scantron documents for them. You will find my slides here.
+    `,
+    refs: [],
+  },
+];
+---
+
+<BaseLayout title="Research" description="Jacob Boudreau's research projects in speech perception and psycholinguistics.">
+
+  <h1>Research</h1>
+  <p>
+    During my time as a Graduate TA, I have found myself both teaching survey courses and working as a tutor in a writing center. 
+    I've found that I enjoy types of positions as they require me to draw on my broad experiences!
+  </p>
+  <p>
+    You will find the classes I have taught below along with whatever materials I have created for them.
+  </p>
+
+  <div class="card-grid">
+    {projects.map((project) => (
+      <div class="card">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+          <h3 style="margin-top: 0;">{project.title}</h3>
+          <span class="tag">{project.status}</span>
+        </div>
+
+        <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+          {project.tags.map((tag) => (
+            <span style="font-size: 0.75rem; color: var(--color-text-muted); background: var(--color-bg); border: 1px solid var(--color-border); padding: 0.15rem 0.5rem; border-radius: 999px;">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <p style="font-size: 0.9rem; color: var(--color-text); margin-bottom: 0.75rem;" set:html={project.description} />
+
+        {project.refs.length > 0 && (
+          <p style="font-size: 0.8rem; color: var(--color-text-muted); margin: 0;">
+            Key references: {project.refs.join('; ')}
+          </p>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <hr />
+
+  <h2>Previous work</h2>
+  <p>
+    During my M.A. at Iowa, I led a weekly discussion section for LING:3001 Introduction to Linguistics in Fall 2025 and worked as a tutor in the UIowa Writing Center.
+  </p>
+
+</BaseLayout>

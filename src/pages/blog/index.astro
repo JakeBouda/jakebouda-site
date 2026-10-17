@@ -8,7 +8,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 // Add your posts here as you write them.
 // Each object will appear as a card on this page.
-const posts: { title: string; date: string; slug: string; description: string; tags: string[] }[] = [
+const posts: { title: string; date: string; slug: string; description: string; tags: string[]; file?: { label: string; url: string } }[] = [
   // Example (uncomment and fill in when ready):
    {
      title: "Really, a small thing.",
@@ -16,6 +16,7 @@ const posts: { title: string; date: string; slug: string; description: string; t
      slug: "really-a-small-thing",
      description: "A project I wrote for The Lyric Novel as taught by Kaveh Akbar. Sometimes I do not know what to do with this piece, or even if I should do anything with it. I am working on expanding it and have been for some time, but I have matured and learned so much since then that it feels a little weird for it to be an expanded thing from it. I think I will stick with the general form I found myself fond of when writing this--I feel as though it suits me and what I want to do with my more creative works.",
      tags: ["Creative", "Prose", "Sebaldian"],
+     file: { label: "Download PDF", url: "/misc/creative/really-a-small-thing.pdf" },
    },
 ];
 ---
@@ -46,6 +47,11 @@ const posts: { title: string; date: string; slug: string; description: string; t
                 <span class="tag">{tag}</span>
               ))}
             </div>
+            {post.file && (
+              <p style="margin: 0.75rem 0 0; font-size: 0.85rem;">
+                <a href={post.file.url} download class="post-download">{post.file.label}</a>
+              </p>
+            )}
           </div>
         </a>
       ))}

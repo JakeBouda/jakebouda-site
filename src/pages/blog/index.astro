@@ -8,7 +8,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 // Add your posts here as you write them.
 // Each object will appear as a card on this page.
-const posts: { title: string; date: string; slug: string; description: string; tags: string[]; file?: { label: string; url: string } }[] = [
+const posts: { title: string; date: string; slug?: string; description: string; tags: string[]; file?: { label: string; url: string } }[] = [
   // Example (uncomment and fill in when ready):
    {
      title: "Really, a small thing.",
@@ -17,6 +17,14 @@ const posts: { title: string; date: string; slug: string; description: string; t
      description: "A project I wrote for The Lyric Novel as taught by Kaveh Akbar. Sometimes I do not know what to do with this piece, or even if I should do anything with it. I am working on expanding it and have been for some time, but I have matured and learned so much since then that it feels a little weird for it to be an expanded thing from it. I think I will stick with the general form I found myself fond of when writing this--I feel as though it suits me and what I want to do with my more creative works.",
      tags: ["Creative", "Prose", "Sebaldian"],
      file: { label: "Download PDF", url: "/misc/creative/really-a-small-thing.pdf" },
+   },
+];
+   {
+     title: "Incarnate.",
+     date: "2025-05-07",
+     description: "This was a weird one: I wrote it for an independent study I did with Thomas Mira y Lopez during my last semester at Iowa. I was really interest in this metaphor I saw throughout my undergrad about the text as a kind of body, so I decided to just kind of riff off of that for a bit. It got a little out there the more I worked on it and I kinda just threw everything that was stewing in my brain at the time on the page there, but I generally tend to think something sorta cool came of it."
+     tags: ["Creative", "Prose", "Sebaldian"],
+     file: { label: "Download PDF", url: "/misc/creative/incarnate.pdf" },
    },
 ];
 ---
